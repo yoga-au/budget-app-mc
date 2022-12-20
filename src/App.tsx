@@ -1,8 +1,15 @@
+import styled from "styled-components";
+import BalanceCard from "./components/BalanceCard";
+
+const AppWrapper = styled.div`
+  margin: 1.5rem;
+`;
+
 function App() {
   return (
-    <div>
-      <h1>Budget App</h1>
-    </div>
+    <AppWrapper>
+      <BalanceCard />
+    </AppWrapper>
   );
 }
 
