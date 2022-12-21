@@ -9,12 +9,12 @@ const pickVariantBtn = (variant: "income" | "expense") => {
   switch (variant) {
     case "income":
       return css`
-        background-color: green;
+        background-color: #34aa44;
         color: white;
       `;
     case "expense":
       return css`
-        background-color: red;
+        background-color: #e6492d;
         color: white;
       `;
 
