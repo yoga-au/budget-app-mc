@@ -23,12 +23,6 @@ const pickVariantBtn = (variant: "income" | "expense") => {
   }
 };
 
-const ButtonAddWrapper = styled.div`
-  margin-block: 36px;
-  display: grid;
-  gap: 16px;
-`;
-
 const ButtonStyle = styled.button<Pick<ButtonProps, "variant">>`
   width: 100%;
   padding-block: 8px;

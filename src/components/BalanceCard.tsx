@@ -6,7 +6,7 @@ const BalanceCardWrapper = styled.div`
   justify-content: space-between;
   padding-block: 1rem;
   padding-inline: 1.5rem;
-  min-height: 180px;
+  min-height: 200px;
   background: linear-gradient(135deg, #4361ce, #031a6e);
   border-radius: 1rem;
   color: white;

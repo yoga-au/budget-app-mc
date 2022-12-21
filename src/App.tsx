@@ -7,12 +7,28 @@ import type { ComponentProps } from "react";
 
 const AppWrapper = styled.div`
   margin: 1.5rem;
+  max-width: 1280px;
+
+  @media screen and (min-width: 80em) {
+    margin: 1.5rem auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 36px;
+  }
+`;
+
+const BudgetAndAddWrapper = styled.div`
+  @media screen and (min-width: 80em) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 `;
 
 const ButtonAddWrapper = styled.div`
-  margin-block: 36px;
+  margin-block: 2.25rem;
   display: grid;
-  gap: 16px;
+  gap: 1rem;
 `;
 
 function App() {
@@ -53,16 +69,33 @@ function App() {
 
   return (
     <AppWrapper>
-      <BalanceCard />
-      <ButtonAddWrapper>
-        <Button variant="income">Add Income</Button>
-        <Button variant="expense">Add Expense</Button>
-      </ButtonAddWrapper>
-      {/* Recent transaction */}
-      <TransactionCard
-        cardTitle="Recent Transaction"
-        transactionData={transactionArray}
-      />
+      <BudgetAndAddWrapper>
+        <div>
+          <BalanceCard />
+          <ButtonAddWrapper>
+            <Button variant="income">Add Income</Button>
+            <Button variant="expense">Add Expense</Button>
+          </ButtonAddWrapper>
+        </div>
+        <TransactionCard
+          cardTitle="Recent Transaction"
+          transactionData={transactionArray}
+        />
+      </BudgetAndAddWrapper>
+      <div>
+        <TransactionCard
+          cardTitle="Expense Transaction"
+          transactionData={transactionArray.filter(
+            (item) => item.type === "expense"
+          )}
+        />
+        <TransactionCard
+          cardTitle="Income Transaction"
+          transactionData={transactionArray.filter(
+            (item) => item.type === "income"
+          )}
+        />
+      </div>
     </AppWrapper>
   );
 }

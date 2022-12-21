@@ -16,8 +16,8 @@ const TransactionCardWrapper = styled.div`
   box-shadow: 4px 8px 24px hsla(0, 0%, 0%, 0.1);
   padding: 1rem;
   border-radius: 1rem;
-  display: grid;
-  row-gap: 1rem;
+  margin-block-end: 2.25rem;
+  min-height: 450px;
 `;
 
 const TransactionHeading = styled.h3`
@@ -29,6 +29,7 @@ const TransactionWrapper = styled.div`
   justify-content: space-between;
   padding-block: 8px;
   border-bottom: 1px solid #efefef;
+  margin-block: 1rem;
 `;
 
 const TimestampTransaction = styled.p`
