@@ -1,7 +1,9 @@
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import BalanceCard from "./components/BalanceCard";
 import Button from "./components/Button";
 import TransactionCard from "./components/TransactionCard";
+import DialogForm from "./components/DialogForm";
 
 import type { ComponentProps } from "react";
 
@@ -9,11 +11,11 @@ const AppWrapper = styled.div`
   margin: 1.5rem;
   max-width: 1280px;
 
-  @media screen and (min-width: 80em) {
+  @media screen and (min-width: calc(80em + 1.5em)) {
     margin: 1.5rem auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 36px;
+    column-gap: 2.25rem;
   }
 `;
 
@@ -67,14 +69,38 @@ function App() {
     },
   ];
 
+  const [formType, setFormType] = useState<"income" | "expense">("income");
+
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   return (
     <AppWrapper>
       <BudgetAndAddWrapper>
         <div>
           <BalanceCard />
           <ButtonAddWrapper>
-            <Button variant="income">Add Income</Button>
-            <Button variant="expense">Add Expense</Button>
+            <Button
+              variant="income"
+              onClick={() => {
+                if (dialogRef.current) {
+                  dialogRef.current.showModal();
+                  setFormType("income");
+                }
+              }}
+            >
+              Add Balance
+            </Button>
+            <Button
+              variant="expense"
+              onClick={() => {
+                if (dialogRef.current) {
+                  dialogRef.current.showModal();
+                  setFormType("expense");
+                }
+              }}
+            >
+              Add Expense
+            </Button>
           </ButtonAddWrapper>
         </div>
         <TransactionCard
@@ -96,6 +122,10 @@ function App() {
           )}
         />
       </div>
+      <DialogForm
+        title={formType === "expense" ? "Add Expense" : "Add Balance"}
+        ref={dialogRef}
+      />
     </AppWrapper>
   );
 }

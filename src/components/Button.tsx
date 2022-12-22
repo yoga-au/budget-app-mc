@@ -36,8 +36,12 @@ const ButtonStyle = styled.button<Pick<ButtonProps, "variant">>`
   }
 `;
 
-const Button = ({ variant, children }: ButtonProps) => {
-  return <ButtonStyle variant={variant}>{children}</ButtonStyle>;
+const Button = ({ variant, children, ...rest }: ButtonProps) => {
+  return (
+    <ButtonStyle variant={variant} {...rest}>
+      {children}
+    </ButtonStyle>
+  );
 };
 
 export default Button;
