@@ -94,6 +94,7 @@ function App() {
       <DialogForm
         title={formType === "expense" ? "Add Expense" : "Add Balance"}
         ref={dialogRef}
+        type={formType}
       />
     </AppWrapper>
   );
