@@ -1,14 +1,11 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+
+import type { TransactionData } from "../types/transaction";
 
 interface TransactionCardProps {
   cardTitle: string;
-  transactionData: {
-    title: string;
-    timestamp: string;
-    type: "expense" | "income";
-    total: number;
-  }[];
+  transactionData: TransactionData[];
 }
 
 const TransactionCardWrapper = styled.div`

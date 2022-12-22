@@ -28,7 +28,11 @@ const BalanceDigit = styled.p`
   font-size: 2rem;
 `;
 
-const BalanceCard = () => {
+interface BalanceCardProps {
+  balance: number;
+}
+
+const BalanceCard = ({ balance }: BalanceCardProps) => {
   return (
     <BalanceCardWrapper>
       <div>
@@ -44,7 +48,7 @@ const BalanceCard = () => {
           {Intl.NumberFormat("id", {
             currency: "IDR",
             style: "currency",
-          }).format(99999999)}
+          }).format(balance)}
         </BalanceDigit>
         {/* Logo */}
       </div>

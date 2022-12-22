@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
+import { useTransactionStore } from "../store/transactionStore";
 
 type Ref = HTMLDialogElement;
 
@@ -41,11 +42,14 @@ const ButtonWrapper = styled.div`
 const DialogForm = forwardRef<Ref, DialogFormProps>((props, ref) => {
   const { title } = props;
 
+  const addBalance = useTransactionStore((state) => state.addBalance);
+  const addExpense = useTransactionStore((state) => state.addExpense);
+
   return (
     <DialogStyle ref={ref}>
       <FormStyle method="dialog">
         <LabelForm htmlFor="amount">{title}</LabelForm>
-        <InputAmount type="number" name="amount" id="amount" />
+        <InputAmount name="amount" id="amount" inputMode="numeric" />
         <ButtonWrapper>
           <Button type="submit" variant="income">
             Add

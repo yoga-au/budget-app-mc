@@ -4,6 +4,7 @@ import BalanceCard from "./components/BalanceCard";
 import Button from "./components/Button";
 import TransactionCard from "./components/TransactionCard";
 import DialogForm from "./components/DialogForm";
+import { useTransactionStore } from "./store/transactionStore";
 
 import type { ComponentProps } from "react";
 
@@ -34,50 +35,18 @@ const ButtonAddWrapper = styled.div`
 `;
 
 function App() {
-  const transactionArray: ComponentProps<
-    typeof TransactionCard
-  >["transactionData"] = [
-    {
-      title: "Beli Sayuran",
-      timestamp: "12/21/2022 10:39",
-      type: "expense",
-      total: 100000,
-    },
-    {
-      title: "Beli Sayuran",
-      timestamp: "12/21/2022 10:39",
-      type: "income",
-      total: 50000,
-    },
-    {
-      title: "Beli Sayuran",
-      timestamp: "12/21/2022 10:39",
-      type: "income",
-      total: 150000,
-    },
-    {
-      title: "Beli Sayuran",
-      timestamp: "12/21/2022 10:39",
-      type: "expense",
-      total: 100000,
-    },
-    {
-      title: "Beli Sayuran",
-      timestamp: "12/21/2022 10:39",
-      type: "expense",
-      total: 100000,
-    },
-  ];
-
   const [formType, setFormType] = useState<"income" | "expense">("income");
 
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const balance = useTransactionStore((state) => state.balance);
+  const transactionData = useTransactionStore((state) => state.transaction);
 
   return (
     <AppWrapper>
       <BudgetAndAddWrapper>
         <div>
-          <BalanceCard />
+          <BalanceCard balance={balance} />
           <ButtonAddWrapper>
             <Button
               variant="income"
@@ -105,19 +74,19 @@ function App() {
         </div>
         <TransactionCard
           cardTitle="Recent Transaction"
-          transactionData={transactionArray}
+          transactionData={transactionData}
         />
       </BudgetAndAddWrapper>
       <div>
         <TransactionCard
           cardTitle="Expense Transaction"
-          transactionData={transactionArray.filter(
+          transactionData={transactionData.filter(
             (item) => item.type === "expense"
           )}
         />
         <TransactionCard
           cardTitle="Income Transaction"
-          transactionData={transactionArray.filter(
+          transactionData={transactionData.filter(
             (item) => item.type === "income"
           )}
         />
