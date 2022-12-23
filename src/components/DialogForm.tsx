@@ -1,16 +1,13 @@
 import { forwardRef, useRef } from "react";
 import styled from "styled-components";
-import dayjs from "dayjs";
 import Button from "./Button";
-import { useTransactionStore } from "../store/transactionStore";
-
-import type { FormEvent } from "react";
 
 type Ref = HTMLDialogElement;
 
 interface DialogFormProps {
   title: string;
-  type: "income" | "expense";
+  onCancel: () => void;
+  onSubmit: (transactionName: string, amount: number) => void;
 }
 
 const DialogStyle = styled.dialog`
@@ -33,8 +30,9 @@ const LabelForm = styled.label`
 
 const InputAmount = styled.input`
   display: block;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   border-style: solid;
+  padding: 0.5rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -44,39 +42,18 @@ const ButtonWrapper = styled.div`
 `;
 
 const DialogForm = forwardRef<Ref, DialogFormProps>((props, ref) => {
-  const { title, type } = props;
+  const { title, onSubmit, onCancel } = props;
 
   const amount = useRef(0);
   const transactionName = useRef("");
-
-  const addBalance = useTransactionStore((state) => state.addBalance);
-  const addExpense = useTransactionStore((state) => state.addExpense);
-
-  const onSubmit = (ev: FormEvent<HTMLFormElement>) => {
-    if (type === "expense") {
-      addExpense({
-        title: transactionName.current,
-        total: amount.current,
-        timestamp: dayjs().format("DD/MM/YYYY HH:mm"),
-        type: "expense",
-      });
-      return;
-    }
-
-    addBalance({
-      title: transactionName.current,
-      total: amount.current,
-      timestamp: dayjs().format("DD/MM/YYYY HH:mm"),
-      type: "income",
-    });
-  };
 
   return (
     <DialogStyle ref={ref}>
       <FormStyle
         method="dialog"
         onSubmit={(ev) => {
-          onSubmit(ev);
+          ev.preventDefault();
+          onSubmit(transactionName.current, amount.current);
         }}
       >
         <LabelForm htmlFor="transactionName">Transaction Name</LabelForm>
@@ -101,7 +78,15 @@ const DialogForm = forwardRef<Ref, DialogFormProps>((props, ref) => {
           <Button type="submit" variant="income">
             Add
           </Button>
-          <Button variant="expense">Cancel</Button>
+          <Button
+            variant="expense"
+            onClick={(ev) => {
+              ev.preventDefault();
+              onCancel();
+            }}
+          >
+            Cancel
+          </Button>
         </ButtonWrapper>
       </FormStyle>
     </DialogStyle>

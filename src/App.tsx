@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import dayjs from "dayjs";
 import styled from "styled-components";
 import BalanceCard from "./components/BalanceCard";
 import Button from "./components/Button";
@@ -41,6 +42,8 @@ function App() {
 
   const balance = useTransactionStore((state) => state.balance);
   const transactionData = useTransactionStore((state) => state.transaction);
+  const addBalance = useTransactionStore((state) => state.addBalance);
+  const addExpense = useTransactionStore((state) => state.addExpense);
 
   return (
     <AppWrapper>
@@ -74,27 +77,53 @@ function App() {
         </div>
         <TransactionCard
           cardTitle="Recent Transaction"
-          transactionData={transactionData}
+          transactionData={transactionData.slice(0, 5)}
         />
       </BudgetAndAddWrapper>
       <div>
         <TransactionCard
           cardTitle="Expense Transaction"
-          transactionData={transactionData.filter(
-            (item) => item.type === "expense"
-          )}
+          transactionData={transactionData
+            .filter((item) => item.type === "expense")
+            .slice(0, 5)}
         />
         <TransactionCard
           cardTitle="Income Transaction"
-          transactionData={transactionData.filter(
-            (item) => item.type === "income"
-          )}
+          transactionData={transactionData
+            .filter((item) => item.type === "income")
+            .slice(0, 5)}
         />
       </div>
       <DialogForm
         title={formType === "expense" ? "Add Expense" : "Add Balance"}
         ref={dialogRef}
-        type={formType}
+        onSubmit={(transactionName, amount) => {
+          if (dialogRef.current) {
+            if (formType === "expense") {
+              addExpense({
+                title: transactionName,
+                total: amount,
+                timestamp: dayjs().format("DD/MM/YYYY HH:mm"),
+                type: "expense",
+              });
+              dialogRef.current.close();
+              return;
+            }
+
+            addBalance({
+              title: transactionName,
+              total: amount,
+              timestamp: dayjs().format("DD/MM/YYYY HH:mm"),
+              type: "income",
+            });
+            dialogRef.current.close();
+          }
+        }}
+        onCancel={() => {
+          if (dialogRef.current) {
+            dialogRef.current.close();
+          }
+        }}
       />
     </AppWrapper>
   );

@@ -14,7 +14,7 @@ const TransactionCardWrapper = styled.div`
   padding: 1rem;
   border-radius: 1rem;
   margin-block-end: 2.25rem;
-  min-height: 450px;
+  min-height: 482px;
 `;
 
 const TransactionHeading = styled.h3`

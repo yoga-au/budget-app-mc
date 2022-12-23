@@ -12,12 +12,12 @@ export const useTransactionStore = create<StoreType>()(
         addBalance: (transaction) =>
           set({
             balance: get().balance + transaction.total,
-            transaction: [...get().transaction, transaction],
+            transaction: [transaction, ...get().transaction],
           }),
         addExpense: (transaction) =>
           set({
             balance: get().balance - transaction.total,
-            transaction: [...get().transaction, transaction],
+            transaction: [transaction, ...get().transaction],
           }),
       };
     },
